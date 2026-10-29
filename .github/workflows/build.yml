@@ -33,13 +33,27 @@ jobs:
       - name: gradlew calistirilabilir yap
         run: chmod +x ./gradlew
 
-      - name: Debug APK derle
-        run: ./gradlew assembleDebug --no-daemon --stacktrace
+      - name: Imza anahtari olustur
+        run: |
+          keytool -genkeypair -v -keystore cg.keystore -alias cg \
+            -keyalg RSA -keysize 2048 -validity 10000 \
+            -storepass casperguard -keypass casperguard \
+            -dname "CN=CasperGuard, O=CasperGuard, C=TR"
 
-      - name: APK'yi adlandir
+      - name: Release APK derle
+        run: ./gradlew assembleRelease --no-daemon --stacktrace
+
+      - name: APK imzala
         run: |
           mkdir -p out
-          cp app/build/outputs/apk/debug/app-debug.apk out/CasperGuard.apk
+          BT=$(ls "$ANDROID_SDK_ROOT/build-tools" | sort -V | tail -1)
+          echo "build-tools: $BT"
+          "$ANDROID_SDK_ROOT/build-tools/$BT/apksigner" sign \
+            --ks cg.keystore --ks-key-alias cg \
+            --ks-pass pass:casperguard --key-pass pass:casperguard \
+            --out out/CasperGuard.apk \
+            app/build/outputs/apk/release/app-release-unsigned.apk
+          "$ANDROID_SDK_ROOT/build-tools/$BT/apksigner" verify out/CasperGuard.apk
 
       - name: Artifact yukle
         uses: actions/upload-artifact@v4
@@ -53,6 +67,7 @@ jobs:
           tag_name: test-latest
           name: CasperGuard (test)
           body: |
-            CasperGuard test APK'si. Telefona kur, Start'a bas, Instagram/Discord ac.
+            CasperGuard test APK'si (imzali release). Telefona kur, Start'a bas, Instagram/Discord ac.
             Strateji ve DNS gomulu geldi; ayar yapmana gerek yok.
+            Not: onceki CasperGuard kuruluysa once onu kaldir.
           files: out/CasperGuard.apk
