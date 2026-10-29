@@ -23,11 +23,12 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Android SDK araclari
-        uses: android-actions/setup-android@v3
-
       - name: NDK ve CMake kur
-        run: sdkmanager "ndk;26.1.10909125" "cmake;3.22.1"
+        run: |
+          SDKMGR=$(find "$ANDROID_SDK_ROOT/cmdline-tools" -name sdkmanager -type f | head -1)
+          echo "sdkmanager: $SDKMGR"
+          yes | "$SDKMGR" --licenses >/dev/null 2>&1 || true
+          "$SDKMGR" "ndk;26.1.10909125" "cmake;3.22.1"
 
       - name: gradlew calistirilabilir yap
         run: chmod +x ./gradlew
