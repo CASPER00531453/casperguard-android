@@ -1,0 +1,56 @@
+name: CasperGuard APK derle
+
+on:
+  push:
+    branches: [ master, main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Kaynagi al (submodullerle)
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: NDK ve CMake kur
+        run: |
+          yes | sdkmanager --licenses >/dev/null 2>&1 || true
+          sdkmanager "ndk;26.1.10909125" "cmake;3.22.1"
+
+      - name: gradlew calistirilabilir yap
+        run: chmod +x ./gradlew
+
+      - name: Debug APK derle
+        run: ./gradlew assembleDebug --no-daemon --stacktrace
+
+      - name: APK'yi adlandir
+        run: |
+          mkdir -p out
+          cp app/build/outputs/apk/debug/app-debug.apk out/CasperGuard.apk
+
+      - name: Artifact yukle
+        uses: actions/upload-artifact@v4
+        with:
+          name: CasperGuard-apk
+          path: out/CasperGuard.apk
+
+      - name: Release'e bas
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: test-latest
+          name: CasperGuard (test)
+          body: |
+            CasperGuard test APK'si. Telefona kur, Start'a bas, Instagram/Discord ac.
+            Strateji ve DNS gomulu geldi; ayar yapmana gerek yok.
+          files: out/CasperGuard.apk
