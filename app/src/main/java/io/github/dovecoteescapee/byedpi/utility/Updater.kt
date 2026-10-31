@@ -40,7 +40,9 @@ object Updater {
     suspend fun refresh(context: Context): Boolean {
         withContext<Unit>(Dispatchers.IO) {
             try {
-                val connection = open(MANIFEST_URL, CHECK_TIMEOUT_MS)
+                // GitHub's CDN serves a stale manifest for a repeated URL.
+                val url = "$MANIFEST_URL?t=${System.currentTimeMillis()}"
+                val connection = open(url, CHECK_TIMEOUT_MS)
                 try {
                     if (connection.responseCode == HttpURLConnection.HTTP_OK) {
                         val text = connection.inputStream.bufferedReader().use { it.readText() }

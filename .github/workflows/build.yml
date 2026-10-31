@@ -60,7 +60,7 @@ jobs:
             app/build/outputs/apk/release/app-release-unsigned.apk
           "$ANDROID_SDK_ROOT/build-tools/$BT/apksigner" verify out/CasperGuard.apk
           cat > out/version.json <<EOF
-          {"versionCode": $((100 + GITHUB_RUN_NUMBER)), "versionName": "1.2.$GITHUB_RUN_NUMBER", "url": "https://github.com/$GITHUB_REPOSITORY/releases/download/test-latest/CasperGuard.apk"}
+          {"versionCode": $((100 + GITHUB_RUN_NUMBER)), "versionName": "1.2.$GITHUB_RUN_NUMBER", "url": "https://github.com/$GITHUB_REPOSITORY/releases/download/test-latest/CasperGuard.apk?v=$((100 + GITHUB_RUN_NUMBER))"}
           EOF
 
       - name: Artifact yukle
