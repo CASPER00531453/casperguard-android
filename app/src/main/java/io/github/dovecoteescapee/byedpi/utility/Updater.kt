@@ -19,7 +19,7 @@ object Updater {
     private val TAG: String = Updater::class.java.simpleName
     private const val MANIFEST_URL =
         "https://github.com/CASPER00531453/casperguard-android/releases/download/test-latest/version.json"
-    private const val CHECK_TIMEOUT_MS = 5_000
+    private const val CHECK_TIMEOUT_MS = 15_000
     private const val DOWNLOAD_TIMEOUT_MS = 30_000
 
     private fun store(context: Context): SharedPreferences =
@@ -48,19 +48,32 @@ object Updater {
                         store(context).edit()
                             .putInt("version_code", json.getInt("versionCode"))
                             .putString("url", json.getString("url"))
+                            .putString("last_check", "son sürüm ${json.getInt("versionCode")}")
                             .apply()
+                    } else {
+                        saveCheckError(context, "HTTP ${connection.responseCode}")
                     }
                 } finally {
                     connection.disconnect()
                 }
             } catch (e: IOException) {
                 Log.w(TAG, "Update manifest unreachable", e)
+                saveCheckError(context, e.javaClass.simpleName)
             } catch (e: JSONException) {
                 Log.w(TAG, "Bad update manifest", e)
+                saveCheckError(context, e.javaClass.simpleName)
             }
         }
         return isRequired(context)
     }
+
+    private fun saveCheckError(context: Context, error: String) {
+        store(context).edit().putString("last_check", "hata: $error").apply()
+    }
+
+    /** Result of the latest manifest fetch, shown in settings. */
+    fun lastCheck(context: Context): String =
+        store(context).getString("last_check", null) ?: "henüz yok"
 
     /** Downloads the APK and opens the system installer. */
     suspend fun install(context: Context, onProgress: (Int) -> Unit) {

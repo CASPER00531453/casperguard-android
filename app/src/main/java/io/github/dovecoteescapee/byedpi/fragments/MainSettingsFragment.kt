@@ -87,7 +87,9 @@ class MainSettingsFragment : PreferenceFragmentCompat() {
             true
         }
 
-        findPreferenceNotNull<Preference>("version").summary = BuildConfig.VERSION_NAME
+        findPreferenceNotNull<Preference>("version").summary =
+            "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE}), " +
+                "kontrol: ${Updater.lastCheck(requireContext())}"
 
         updatePreferences()
     }
