@@ -22,7 +22,8 @@ class ActivationActivity : AppCompatActivity() {
         License.lastError(this)?.let { binding.activationMessage.setText(errorMessage(it)) }
 
         binding.activationButton.setOnClickListener {
-            val code = binding.activationCode.text.toString().trim().uppercase()
+            val code = binding.activationCode.text.toString().uppercase()
+                .filter { it in 'A'..'Z' || it in '0'..'9' || it == '-' }
             if (code.isEmpty()) return@setOnClickListener
 
             binding.activationButton.isEnabled = false
