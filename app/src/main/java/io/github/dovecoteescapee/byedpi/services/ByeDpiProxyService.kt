@@ -23,6 +23,7 @@ class ByeDpiProxyService : LifecycleService() {
     private var proxy = ByeDpiProxy()
     private var proxyJob: Job? = null
     private val mutex = Mutex()
+    private var licenseJob: Job? = null
 
     companion object {
         private val TAG: String = ByeDpiProxyService::class.java.simpleName
@@ -75,10 +76,18 @@ class ByeDpiProxyService : LifecycleService() {
             }
             updateStatus(ServiceStatus.Connected)
             startForeground()
+            watchLicense()
         } catch (e: Exception) {
             Log.e(TAG, "Failed to start proxy", e)
             updateStatus(ServiceStatus.Failed)
             stop()
+        }
+    }
+
+    private fun watchLicense() {
+        licenseJob = lifecycleScope.launch {
+            License.watch(this@ByeDpiProxyService)
+            lifecycleScope.launch { stop() }
         }
     }
 
@@ -97,6 +106,9 @@ class ByeDpiProxyService : LifecycleService() {
 
     private suspend fun stop() {
         Log.i(TAG, "Stopping VPN")
+
+        licenseJob?.cancel()
+        licenseJob = null
 
         mutex.withLock {
             stopProxy()

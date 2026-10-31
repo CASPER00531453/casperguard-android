@@ -1,6 +1,15 @@
 <resources>
     <string name="byedpi_docs">https://github.com/hufrea/byedpi/blob/v0.13/README.md</string>
     <string name="app_name">CasperGuard</string>
+    <string name="activation_title">Kodunu gir</string>
+    <string name="activation_hint">CG-XXXX-XXXX</string>
+    <string name="activation_button">Etkinleştir</string>
+    <string name="activation_checking">Kontrol ediliyor…</string>
+    <string name="activation_unavailable">Sunucuya ulaşılamadı. İnternetini kontrol et.</string>
+    <string name="activation_invalid">Kod geçersiz.</string>
+    <string name="activation_revoked">Bu kod iptal edilmiş.</string>
+    <string name="activation_expired">Bu kodun süresi dolmuş.</string>
+    <string name="activation_device_mismatch">Bu kod başka bir cihazda kullanılıyor.</string>
     <string name="vpn_connect">Connect</string>
     <string name="vpn_disconnect">Disconnect</string>
     <string name="vpn_connected">Connected</string>
@@ -42,11 +51,11 @@
     <string name="failed_to_start">Failed to start %1$s</string>
     <string name="vpn_channel_name">VPN</string>
     <string name="proxy_channel_name">Proxy</string>
-    <string name="notification_title">ByeDPI</string>
+    <string name="notification_title">CasperGuard</string>
     <string name="vpn_notification_content">VPN is running</string>
     <string name="proxy_notification_content">Proxy is running</string>
     <string name="general_category">General</string>
-    <string name="byedpi_category">ByeDPI</string>
+    <string name="byedpi_category">CasperGuard</string>
     <string name="about_category">About</string>
     <string name="command_line_editor">Command line editor</string>
     <string name="ui_editor">UI editor</string>

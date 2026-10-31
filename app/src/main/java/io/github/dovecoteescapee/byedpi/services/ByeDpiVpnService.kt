@@ -28,6 +28,7 @@ class ByeDpiVpnService : LifecycleVpnService() {
     private var proxyJob: Job? = null
     private var tunFd: ParcelFileDescriptor? = null
     private val mutex = Mutex()
+    private var licenseJob: Job? = null
     private var stopping: Boolean = false
 
     companion object {
@@ -87,10 +88,18 @@ class ByeDpiVpnService : LifecycleVpnService() {
             }
             updateStatus(ServiceStatus.Connected)
             startForeground()
+            watchLicense()
         } catch (e: Exception) {
             Log.e(TAG, "Failed to start VPN", e)
             updateStatus(ServiceStatus.Failed)
             stop()
+        }
+    }
+
+    private fun watchLicense() {
+        licenseJob = lifecycleScope.launch {
+            License.watch(this@ByeDpiVpnService)
+            lifecycleScope.launch { stop() }
         }
     }
 
@@ -109,6 +118,9 @@ class ByeDpiVpnService : LifecycleVpnService() {
 
     private suspend fun stop() {
         Log.i(TAG, "Stopping")
+
+        licenseJob?.cancel()
+        licenseJob = null
 
         mutex.withLock {
             stopping = true
@@ -272,7 +284,7 @@ class ByeDpiVpnService : LifecycleVpnService() {
     private fun createBuilder(dns: String, ipv6: Boolean): Builder {
         Log.d(TAG, "DNS: $dns")
         val builder = Builder()
-        builder.setSession("ByeDPI")
+        builder.setSession(getString(R.string.app_name))
         builder.setConfigureIntent(
             PendingIntent.getActivity(
                 this,

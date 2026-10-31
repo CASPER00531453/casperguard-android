@@ -227,6 +227,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateStatus() {
+        if (!License.hasCode(this)) {
+            if (!isFinishing) {
+                startActivity(Intent(this, ActivationActivity::class.java))
+                finish()
+            }
+            return
+        }
+
         val (status, mode) = appStatus
 
         Log.i(TAG, "Updating status: $status, $mode")
