@@ -22,20 +22,4 @@ Sağ üstteki menüden **Ayarlar**'a gir. Bağlıyken ayarlar açılmaz, önce *
 - **Hazır DNS:** Google, Cloudflare, Quad9, AdGuard veya Yandex'i seçebilirsin.
 - **Hazır strateji:** Bir ayar çalışmazsa alternatifleri dene.
 
-## Sık sorulanlar
-
-**Root gerekiyor mu?**
-Hayır.
-
-**Bu gerçek bir VPN mi?**
-Hayır. Android'in VPN özelliğini sadece trafiği telefonun içinde yönlendirmek için kullanır. Trafiğin uzak bir sunucuya gitmez, şifrelenmez ve IP adresin gizlenmez.
-
-**Hangi bilgiler gönderiliyor?**
-Kodun geçerliliğini kontrol etmek için lisans sunucusuna kod, cihaz kimliği, platform ve uygulama sürümü gönderilir. Güncelleme kontrolü için GitHub'a bağlanılır. Gezdiğin siteler gönderilmez.
-
-**Kod "başka cihazda kullanılıyor" diyor, neden?**
-Her kod tek cihazda çalışır. Kodu veren kişiyle iletişime geç.
-
-## Kaynak ve lisans
-
 CasperGuard, [ByeDPIAndroid](https://github.com/dovecoteescapee/ByeDPIAndroid) üzerine kuruludur ve [ByeDPI](https://github.com/hufrea/byedpi) ile [hev-socks5-tunnel](https://github.com/heiher/hev-socks5-tunnel) projelerini kullanır. Bu proje GPL-3.0 lisanslıdır, ayrıntılar [LICENSE](LICENSE) dosyasında.
