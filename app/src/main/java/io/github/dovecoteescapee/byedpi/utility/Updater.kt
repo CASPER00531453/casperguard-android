@@ -38,7 +38,7 @@ object Updater {
 
     /** Fetches the manifest and returns whether an update is required. */
     suspend fun refresh(context: Context): Boolean {
-        withContext(Dispatchers.IO) {
+        withContext<Unit>(Dispatchers.IO) {
             try {
                 val connection = open(MANIFEST_URL, CHECK_TIMEOUT_MS)
                 try {
@@ -67,7 +67,7 @@ object Updater {
         val url = store(context).getString("url", null) ?: throw IOException("No update url")
         val file = File(context.cacheDir, "updates/CasperGuard.apk")
 
-        withContext(Dispatchers.IO) {
+        withContext<Unit>(Dispatchers.IO) {
             file.parentFile?.mkdirs()
             val connection = open(url, DOWNLOAD_TIMEOUT_MS)
             try {
