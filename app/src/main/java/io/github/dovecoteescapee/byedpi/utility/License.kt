@@ -25,6 +25,7 @@ object License {
     private val TAG: String = License::class.java.simpleName
     private const val API_BASE = "https://casperguard.casperguard-server.workers.dev"
     private const val CHECK_INTERVAL_MS = 60_000L
+    private const val UPDATE_CHECK_EVERY = 60
     private const val TIMEOUT_MS = 10_000
     private val DENIED_ERRORS = setOf("invalid_code", "revoked", "expired", "device_mismatch")
 
@@ -48,11 +49,15 @@ object License {
     }
 
     /**
-     * Returns when the app must stop: the code was denied, or the last token
-     * expired without reaching the server. Runs until cancelled otherwise.
+     * Returns when the app must stop: an update is required, the code was denied,
+     * or the last token expired without reaching the server.
+     * Runs until cancelled otherwise.
      */
     suspend fun watch(context: Context) {
+        var checks = 0
         while (true) {
+            if (checks++ % UPDATE_CHECK_EVERY == 0 && Updater.refresh(context)) return
+
             val code = store(context).getString("code", null) ?: return
             when (val reply = post(context, "/api/check", code)) {
                 is LicenseReply.Active ->

@@ -12,8 +12,8 @@ android {
         applicationId = "com.casperguard.app"
         minSdk = 21
         targetSdk = 34
-        versionCode = 10
-        versionName = "1.2.0"
+        versionCode = (project.findProperty("cgVersionCode") as String?)?.toInt() ?: 10
+        versionName = (project.findProperty("cgVersionName") as String?) ?: "1.2.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 

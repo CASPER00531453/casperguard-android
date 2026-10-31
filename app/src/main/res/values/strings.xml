@@ -3,6 +3,13 @@
     <string name="app_name">CasperGuard</string>
     <string name="dns_preset_setting">Hazır DNS</string>
     <string name="strategy_preset_setting">Hazır strateji</string>
+    <string name="update_title">Güncelleme var</string>
+    <string name="update_description">Devam etmek için yeni sürümü kurmalısın.</string>
+    <string name="update_button">Güncelle</string>
+    <string name="update_downloading">İndiriliyor…</string>
+    <string name="update_progress">İndiriliyor… %%%1$d</string>
+    <string name="update_install_hint">Açılan ekrandan kurulumu tamamla.</string>
+    <string name="update_failed">Güncelleme indirilemedi. Tekrar dene.</string>
     <string name="activation_title">Kodunu gir</string>
     <string name="activation_hint">CG-XXXX-XXXX</string>
     <string name="activation_button">Etkinleştir</string>

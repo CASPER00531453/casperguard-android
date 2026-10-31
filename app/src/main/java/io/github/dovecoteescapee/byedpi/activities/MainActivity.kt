@@ -142,7 +142,15 @@ class MainActivity : AppCompatActivity() {
         binding.statusButton.setOnClickListener {
             val (status, _) = appStatus
             when (status) {
-                AppStatus.Halted -> start()
+                AppStatus.Halted -> lifecycleScope.launch {
+                    binding.statusButton.isEnabled = false
+                    if (Updater.refresh(this@MainActivity)) {
+                        updateStatus()
+                    } else {
+                        binding.statusButton.isEnabled = true
+                        start()
+                    }
+                }
                 AppStatus.Running -> stop()
             }
         }
@@ -164,6 +172,9 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         updateStatus()
+        lifecycleScope.launch {
+            if (Updater.refresh(this@MainActivity)) updateStatus()
+        }
     }
 
     override fun onDestroy() {
@@ -227,6 +238,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateStatus() {
+        if (Updater.isRequired(this)) {
+            if (appStatus.first == AppStatus.Running) stop()
+            if (!isFinishing) {
+                startActivity(Intent(this, UpdateActivity::class.java))
+                finish()
+            }
+            return
+        }
+
         if (!License.hasCode(this)) {
             if (!isFinishing) {
                 startActivity(Intent(this, ActivationActivity::class.java))
