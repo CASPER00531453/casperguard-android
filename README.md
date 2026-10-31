@@ -11,13 +11,13 @@ Telefonundaki internet engellerini aşmana yardım eden Android uygulaması. Kur
 1. Yukarıdaki linki telefonda aç ve APK'yı indir.
 2. "Bilinmeyen kaynaklardan yükleme" izni istenirse izin ver.
 3. CasperGuard'ı aç ve kodunu gir.
-4. **Connect**'e bas, VPN iznini ver.
+4. **Bağlan**'a bas, VPN iznini ver.
 
 Yeni sürüm çıkınca uygulama güncelleme ekranı gösterir. Güncellemeden bağlanamazsın.
 
 ## Ayarlar
 
-Sağ üstteki menüden **Ayarlar**'a gir. Bağlıyken ayarlar açılmaz, önce **Disconnect** yap.
+Sağ üstteki menüden **Ayarlar**'a gir. Bağlıyken ayarlar açılmaz, önce **Bağlantıyı kes**'e bas.
 
 - **Hazır DNS:** Google, Cloudflare, Quad9, AdGuard veya Yandex'i seçebilirsin.
 - **Hazır strateji:** Bir ayar çalışmazsa alternatifleri dene.

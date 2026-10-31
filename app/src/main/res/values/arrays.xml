@@ -29,9 +29,9 @@
     </string-array>
 
     <array name="themes">
-        <item name="system">System</item>
-        <item name="light">Light</item>
-        <item name="dark">Dark</item>
+        <item name="system">Sistem</item>
+        <item name="light">Açık</item>
+        <item name="dark">Koyu</item>
     </array>
     <array name="themes_entries">
         <item name="system">system</item>
@@ -41,7 +41,7 @@
 
     <array name="byedpi_modes">
         <item name="vpn">VPN</item>
-        <item name="proxy">Proxy</item>
+        <item name="proxy">Vekil sunucu</item>
     </array>
     <array name="byedpi_modes_entries">
         <item name="vpn">vpn</item>
@@ -49,12 +49,12 @@
     </array>
 
     <array name="byedpi_desync_methods">
-        <item name="none">None</item>
-        <item name="split">Split</item>
-        <item name="disorder">Disorder</item>
-        <item name="fake">Fake</item>
-        <item name="oob">Out-of-band</item>
-        <item name="oob">Disordered out-of-band</item>
+        <item name="none">Yok</item>
+        <item name="split">Bölme</item>
+        <item name="disorder">Sırasız gönderim</item>
+        <item name="fake">Sahte paket</item>
+        <item name="oob">Bant dışı</item>
+        <item name="oob">Sırasız bant dışı</item>
     </array>
     <array name="byedpi_desync_methods_entries">
         <item name="none">none</item>
@@ -66,9 +66,9 @@
     </array>
 
     <array name="byedpi_hosts_modes">
-        <item name="disable">Disable</item>
-        <item name="blacklist">Blacklist</item>
-        <item name="whitelist">Whitelist</item>
+        <item name="disable">Kapalı</item>
+        <item name="blacklist">Kara liste</item>
+        <item name="whitelist">Beyaz liste</item>
     </array>
     <array name="byedpi_hosts_modes_entries">
         <item name="disable">disable</item>

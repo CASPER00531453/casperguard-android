@@ -18,6 +18,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import io.github.dovecoteescapee.byedpi.R
 import io.github.dovecoteescapee.byedpi.data.*
 import io.github.dovecoteescapee.byedpi.fragments.MainSettingsFragment
@@ -173,7 +174,18 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         updateStatus()
         lifecycleScope.launch {
-            if (Updater.refresh(this@MainActivity)) updateStatus()
+            if (Updater.refresh(this@MainActivity)) {
+                updateStatus()
+                return@launch
+            }
+
+            Announcements.fetchNew(this@MainActivity)?.let {
+                MaterialAlertDialogBuilder(this@MainActivity)
+                    .setTitle(R.string.announcement_title)
+                    .setMessage(it)
+                    .setPositiveButton(android.R.string.ok, null)
+                    .show()
+            }
         }
     }
 

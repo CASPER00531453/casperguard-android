@@ -57,7 +57,7 @@ fun PreferenceFragmentCompat.setEditTextPreferenceListener(
                     if (!valid) {
                         Toast.makeText(
                             requireContext(),
-                            "Invalid value for ${preference.title}: $newValue",
+                            "${preference.title} için geçersiz değer: $newValue",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
