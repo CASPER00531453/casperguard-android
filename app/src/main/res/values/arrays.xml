@@ -1,5 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="dns_presets">
+        <item>Google (8.8.8.8)</item>
+        <item>Cloudflare (1.1.1.1)</item>
+        <item>Quad9 (9.9.9.9)</item>
+        <item>AdGuard (94.140.14.14)</item>
+        <item>Yandex (77.88.8.8)</item>
+    </string-array>
+    <string-array name="dns_presets_entries">
+        <item>8.8.8.8</item>
+        <item>1.1.1.1</item>
+        <item>9.9.9.9</item>
+        <item>94.140.14.14</item>
+        <item>77.88.8.8</item>
+    </string-array>
+
+    <string-array name="strategy_presets">
+        <item>Türkiye (önerilen)</item>
+        <item>Alternatif 1</item>
+        <item>Alternatif 2</item>
+        <item>Alternatif 3</item>
+    </string-array>
+    <string-array name="strategy_presets_entries">
+        <item>-s0 -o1 -d1 -r1+s -Ar -o1 -At -f-1 -r1+s -As</item>
+        <item>-s1 -At -d2 -At -f-1 -r1+s -An</item>
+        <item>-s1 -At -d2 -At -f-1 -r1+s -t5 -An</item>
+        <item>-d1 -f-1 -t5 -r1+s</item>
+    </string-array>
+
     <array name="themes">
         <item name="system">System</item>
         <item name="light">Light</item>

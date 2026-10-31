@@ -1,6 +1,8 @@
 <resources>
     <string name="byedpi_docs">https://github.com/hufrea/byedpi/blob/v0.13/README.md</string>
     <string name="app_name">CasperGuard</string>
+    <string name="dns_preset_setting">Hazır DNS</string>
+    <string name="strategy_preset_setting">Hazır strateji</string>
     <string name="activation_title">Kodunu gir</string>
     <string name="activation_hint">CG-XXXX-XXXX</string>
     <string name="activation_button">Etkinleştir</string>

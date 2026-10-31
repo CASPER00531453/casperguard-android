@@ -66,6 +66,27 @@ class MainSettingsFragment : PreferenceFragmentCompat() {
             true
         }
 
+        val preferences = requireContext().getPreferences()
+        val strategyPreset = findPreferenceNotNull<DropDownPreference>("strategy_preset")
+        strategyPreset.value = preferences.getString(
+            "byedpi_cmd_args",
+            resources.getStringArray(R.array.strategy_presets_entries)[0]
+        )
+        strategyPreset.setOnPreferenceChangeListener { _, newValue ->
+            preferences.edit().putString("byedpi_cmd_args", newValue as String).apply()
+            switchCommandLineSettings.isChecked = true
+            setByeDpiSettingsMode(true)
+            true
+        }
+
+        val dns = findPreferenceNotNull<EditTextPreference>("dns_ip")
+        val dnsPreset = findPreferenceNotNull<DropDownPreference>("dns_preset")
+        dnsPreset.value = dns.text
+        dnsPreset.setOnPreferenceChangeListener { _, newValue ->
+            dns.text = newValue as String
+            true
+        }
+
         findPreferenceNotNull<Preference>("version").summary = BuildConfig.VERSION_NAME
 
         updatePreferences()
@@ -85,16 +106,19 @@ class MainSettingsFragment : PreferenceFragmentCompat() {
         val mode = findPreferenceNotNull<ListPreference>("byedpi_mode")
             .value.let { Mode.fromString(it) }
         val dns = findPreferenceNotNull<EditTextPreference>("dns_ip")
+        val dnsPreset = findPreferenceNotNull<DropDownPreference>("dns_preset")
         val ipv6 = findPreferenceNotNull<SwitchPreference>("ipv6_enable")
 
         when (mode) {
             Mode.VPN -> {
                 dns.isVisible = true
+                dnsPreset.isVisible = true
                 ipv6.isVisible = true
             }
 
             Mode.Proxy -> {
                 dns.isVisible = false
+                dnsPreset.isVisible = false
                 ipv6.isVisible = false
             }
         }
