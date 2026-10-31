@@ -155,6 +155,10 @@ class ByeDpiVpnService : LifecycleVpnService() {
                 if (code != 0) {
                     Log.e(TAG, "Proxy stopped with code $code")
                     updateStatus(ServiceStatus.Failed)
+                    // Without the proxy the open tunnel would swallow all traffic.
+                    if (!stopping) {
+                        stop()
+                    }
                 } else {
                     if (!stopping) {
                         stop()
