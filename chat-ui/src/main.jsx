@@ -6,7 +6,7 @@ import { ERROR_MESSAGES, QUICK_ANSWERS } from './answers'
 const API = 'https://casperguard.casperguard-server.workers.dev'
 const RATING_AFTER_REPLIES = 3
 const VILTRUM = window.CasperBridge?.getEdition?.() === 'viltrum'
-const ORB_COLOR = VILTRUM ? '#E8501C' : undefined
+const ORB_COLOR = VILTRUM ? '#FFFFFF' : undefined
 if (VILTRUM) document.documentElement.dataset.edition = 'viltrum'
 const THINKING_STEPS = [
   ['searching', 'Düşünüyor…'],

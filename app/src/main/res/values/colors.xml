@@ -2,9 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="viltrum_background">#140808</color>
-    <color name="viltrum_surface">#2A0F0C</color>
-    <color name="viltrum_red">#8E1C12</color>
-    <color name="viltrum_accent">#E8501C</color>
-    <color name="viltrum_tan">#D9A066</color>
+    <color name="viltrum_background">#000000</color>
+    <color name="viltrum_surface">#161616</color>
+    <color name="viltrum_red">#8F0F1F</color>
+    <color name="viltrum_accent">#C8102E</color>
 </resources>
