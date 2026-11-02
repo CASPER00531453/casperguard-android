@@ -214,6 +214,20 @@ class MainActivity : AppCompatActivity() {
                 true
             }
 
+            R.id.action_games -> {
+                MaterialAlertDialogBuilder(this)
+                    .setTitle(R.string.games_title)
+                    .setMessage(R.string.games_coming_soon)
+                    .setPositiveButton(android.R.string.ok, null)
+                    .show()
+                true
+            }
+
+            R.id.action_burak_ai -> {
+                startActivity(Intent(this, BurakAiActivity::class.java))
+                true
+            }
+
             R.id.action_save_logs -> {
                 val intent =
                     Intent(Intent.ACTION_CREATE_DOCUMENT).apply {

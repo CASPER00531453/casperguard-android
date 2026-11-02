@@ -1,0 +1,17 @@
+{
+  "name": "casperguard-chat-ui",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "esbuild src/main.jsx --bundle --minify --jsx=automatic --target=es2019,chrome70 --define:process.env.NODE_ENV=\\\"production\\\" --outfile=../app/src/main/assets/chat/app.js"
+  },
+  "dependencies": {
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "thinking-orbs": "0.3.2"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.0"
+  }
+}

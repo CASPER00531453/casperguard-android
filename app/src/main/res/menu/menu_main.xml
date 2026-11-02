@@ -5,15 +5,29 @@
     tools:context=".activities.MainActivity">
 
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_games"
         android:orderInCategory="1"
+        android:title="@string/games_title"
+        android:icon="@drawable/ic_games"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_burak_ai"
+        android:orderInCategory="2"
+        android:title="@string/burak_ai_menu"
+        android:contentDescription="@string/burak_ai_title"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="3"
         android:title="@string/title_settings"
         android:icon="@drawable/baseline_settings_24"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/action_save_logs"
-        android:orderInCategory="2"
+        android:orderInCategory="4"
         android:title="@string/save_logs"
         app:showAsAction="never" />
 

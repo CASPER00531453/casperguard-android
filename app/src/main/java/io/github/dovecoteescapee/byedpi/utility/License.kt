@@ -32,7 +32,9 @@ object License {
     private fun store(context: Context): SharedPreferences =
         context.getSharedPreferences("license", Context.MODE_PRIVATE)
 
-    fun hasCode(context: Context): Boolean = store(context).getString("code", null) != null
+    fun hasCode(context: Context): Boolean = code(context) != null
+
+    fun code(context: Context): String? = store(context).getString("code", null)
 
     fun lastError(context: Context): String? = store(context).getString("error", null)
 
@@ -90,7 +92,7 @@ object License {
         }
 
     @SuppressLint("HardwareIds")
-    private fun deviceId(context: Context): String =
+    fun deviceId(context: Context): String =
         Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID).orEmpty()
 
     private suspend fun post(context: Context, path: String, code: String): LicenseReply =
