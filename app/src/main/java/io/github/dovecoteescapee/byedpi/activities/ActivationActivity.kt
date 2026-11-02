@@ -13,6 +13,10 @@ import kotlinx.coroutines.launch
 class ActivationActivity : AppCompatActivity() {
     private lateinit var binding: ActivityActivationBinding
 
+    companion object {
+        private val CODE_PATTERN = Regex("CG[^A-Z0-9]*([A-Z0-9]{4})[^A-Z0-9]*([A-Z0-9]{4})")
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -22,8 +26,7 @@ class ActivationActivity : AppCompatActivity() {
         License.lastError(this)?.let { binding.activationMessage.setText(errorMessage(it)) }
 
         binding.activationButton.setOnClickListener {
-            val code = binding.activationCode.text.toString().uppercase()
-                .filter { it in 'A'..'Z' || it in '0'..'9' || it == '-' }
+            val code = parseCode(binding.activationCode.text.toString())
             if (code.isEmpty()) return@setOnClickListener
 
             binding.activationButton.isEnabled = false
@@ -37,7 +40,12 @@ class ActivationActivity : AppCompatActivity() {
                     }
 
                     is LicenseReply.Denied ->
-                        binding.activationMessage.setText(errorMessage(reply.error))
+                        binding.activationMessage.text =
+                            if (reply.error == "invalid_code") {
+                                getString(R.string.activation_invalid_entered, code)
+                            } else {
+                                getString(errorMessage(reply.error))
+                            }
 
                     LicenseReply.Unavailable ->
                         binding.activationMessage.setText(R.string.activation_unavailable)
@@ -45,6 +53,13 @@ class ActivationActivity : AppCompatActivity() {
                 binding.activationButton.isEnabled = true
             }
         }
+    }
+
+    // Pasted messages may carry extra text around the code.
+    private fun parseCode(input: String): String {
+        val text = input.uppercase()
+        val match = CODE_PATTERN.find(text) ?: return text.filter { it in 'A'..'Z' || it in '0'..'9' || it == '-' }
+        return "CG-${match.groupValues[1]}-${match.groupValues[2]}"
     }
 
     private fun errorMessage(error: String): Int =

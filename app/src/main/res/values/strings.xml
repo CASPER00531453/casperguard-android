@@ -21,6 +21,8 @@
     <string name="activation_button">Etkinleştir</string>
     <string name="activation_checking">Kontrol ediliyor…</string>
     <string name="activation_unavailable">Sunucuya ulaşılamadı. İnternetini kontrol et.</string>
+    <string name="activation_invalid_entered">Kod geçersiz. Denenen kod: %1$s
+Kodlarda 0, O, 1, I ve L yoktur. Kodu kopyalayıp yapıştırmayı dene.</string>
     <string name="activation_invalid">Kod geçersiz.</string>
     <string name="activation_revoked">Bu kod iptal edilmiş.</string>
     <string name="activation_expired">Bu kodun süresi dolmuş.</string>
