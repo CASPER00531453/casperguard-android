@@ -11,6 +11,7 @@ import android.net.VpnService
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -131,10 +132,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if (appliedEdition == Editions.VILTRUM) {
-            binding.editionEmblem.visibility = View.VISIBLE
-            binding.editionTitle.visibility = View.VISIBLE
-        }
+        if (appliedEdition == Editions.VILTRUM) applyViltrumLayout()
 
         val intentFilter = IntentFilter().apply {
             addAction(STARTED_BROADCAST)
@@ -177,6 +175,22 @@ class MainActivity : AppCompatActivity() {
         ) {
             requestPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS), 1)
         }
+    }
+
+    private fun applyViltrumLayout() {
+        binding.editionCharacter.visibility = View.VISIBLE
+        binding.editionScrim.visibility = View.VISIBLE
+        binding.editionHeader.visibility = View.VISIBLE
+        binding.proxyAddress.visibility = View.GONE
+
+        binding.mainContent.gravity = Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
+        binding.mainContent.setPadding(0, 0, 0, resources.getDimensionPixelSize(R.dimen.viltrum_bottom_padding))
+
+        val accent = ContextCompat.getColorStateList(this, R.color.viltrum_accent)
+        binding.statusButton.backgroundTintList = accent
+        binding.statusButton.strokeColor = accent
+        binding.statusButton.setTextColor(ContextCompat.getColor(this, R.color.white))
+        binding.statusText.setTextColor(ContextCompat.getColor(this, R.color.viltrum_tan))
     }
 
     private fun recreateForEdition(): Boolean {

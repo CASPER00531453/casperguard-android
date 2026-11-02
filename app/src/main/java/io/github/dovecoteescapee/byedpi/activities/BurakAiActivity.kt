@@ -36,7 +36,7 @@ class BurakAiActivity : AppCompatActivity() {
         setContentView(webView)
 
         val viltrum = Editions.selected(this) == Editions.VILTRUM
-        webView.setBackgroundColor(Color.parseColor(if (viltrum) "#12060A" else "#0F172A"))
+        webView.setBackgroundColor(Color.parseColor(if (viltrum) "#140808" else "#0F172A"))
         webView.settings.javaScriptEnabled = true
         webView.addJavascriptInterface(Bridge(), "CasperBridge")
         webView.webViewClient = object : WebViewClient() {
