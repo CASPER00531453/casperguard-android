@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.ServiceInfo
 import android.os.Build
 import android.os.ParcelFileDescriptor
+import android.os.Process
 import android.util.Log
 import androidx.lifecycle.lifecycleScope
 import io.github.dovecoteescapee.byedpi.R
@@ -21,6 +22,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeoutOrNull
 import java.io.File
 
 class ByeDpiVpnService : LifecycleVpnService() {
@@ -29,11 +31,13 @@ class ByeDpiVpnService : LifecycleVpnService() {
     private var tunFd: ParcelFileDescriptor? = null
     private val mutex = Mutex()
     private var licenseJob: Job? = null
+    @Volatile
     private var stopping: Boolean = false
 
     companion object {
         private val TAG: String = ByeDpiVpnService::class.java.simpleName
         private const val FOREGROUND_SERVICE_ID: Int = 1
+        private const val STOP_TIMEOUT_MS: Long = 5_000
         private const val NOTIFICATION_CHANNEL_ID: String = "ByeDPIVpn"
 
         private var status: ServiceStatus = ServiceStatus.Disconnected
@@ -57,6 +61,8 @@ class ByeDpiVpnService : LifecycleVpnService() {
             }
 
             STOP_ACTION -> {
+                // Stop arrives through startForegroundService, even for a finished service.
+                startForeground()
                 lifecycleScope.launch { stop() }
                 START_NOT_STICKY
             }
@@ -122,19 +128,30 @@ class ByeDpiVpnService : LifecycleVpnService() {
         licenseJob?.cancel()
         licenseJob = null
 
-        mutex.withLock {
-            stopping = true
-            try {
-                stopTun2Socks()
-                stopProxy()
-            } catch (e: Exception) {
-                Log.e(TAG, "Failed to stop VPN", e)
-            } finally {
-                stopping = false
+        // Native shutdown can block, so it must never run on the main thread.
+        val shutdown = lifecycleScope.launch(Dispatchers.IO) {
+            mutex.withLock {
+                stopping = true
+                try {
+                    stopTun2Socks()
+                    stopProxy()
+                } catch (e: Exception) {
+                    Log.e(TAG, "Failed to stop VPN", e)
+                } finally {
+                    stopping = false
+                }
             }
         }
 
+        val finished = withTimeoutOrNull(STOP_TIMEOUT_MS) { shutdown.join() } != null
         updateStatus(ServiceStatus.Disconnected)
+
+        if (!finished) {
+            // Only ending the process is sure to release a stuck tunnel.
+            Log.e(TAG, "VPN shutdown timed out, ending process")
+            Process.killProcess(Process.myPid())
+        }
+
         stopSelf()
     }
 
@@ -155,15 +172,12 @@ class ByeDpiVpnService : LifecycleVpnService() {
                 if (code != 0) {
                     Log.e(TAG, "Proxy stopped with code $code")
                     updateStatus(ServiceStatus.Failed)
-                    // Without the proxy the open tunnel would swallow all traffic.
-                    if (!stopping) {
-                        stop()
-                    }
-                } else {
-                    if (!stopping) {
-                        stop()
-                        updateStatus(ServiceStatus.Disconnected)
-                    }
+                }
+
+                // Without the proxy the open tunnel would swallow all traffic. Stopping
+                // runs outside this job because stopProxy waits for it to finish.
+                if (!stopping) {
+                    lifecycleScope.launch { stop() }
                 }
             }
         }

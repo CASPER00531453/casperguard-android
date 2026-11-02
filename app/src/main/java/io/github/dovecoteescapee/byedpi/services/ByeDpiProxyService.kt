@@ -51,6 +51,8 @@ class ByeDpiProxyService : LifecycleService() {
             }
 
             STOP_ACTION -> {
+                // Stop arrives through startForegroundService, even for a finished service.
+                startForeground()
                 lifecycleScope.launch { stop() }
                 START_NOT_STICKY
             }

@@ -158,7 +158,10 @@ class MainActivity : AppCompatActivity() {
                         start()
                     }
                 }
-                AppStatus.Running -> stop()
+                AppStatus.Running -> {
+                    binding.statusButton.isEnabled = false
+                    stop()
+                }
             }
         }
 
