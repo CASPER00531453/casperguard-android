@@ -16,6 +16,13 @@
             app:useSimpleSummaryProvider="true" />
 
         <DropDownPreference
+            android:key="edition"
+            android:title="@string/edition_setting"
+            android:persistent="false"
+            app:isPreferenceVisible="false"
+            app:useSimpleSummaryProvider="true" />
+
+        <DropDownPreference
             android:key="byedpi_mode"
             android:title="@string/mode_setting"
             android:entries="@array/byedpi_modes"

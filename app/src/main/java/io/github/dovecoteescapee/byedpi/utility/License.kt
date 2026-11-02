@@ -16,7 +16,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 sealed interface LicenseReply {
-    data class Active(val token: String) : LicenseReply
+    data class Active(val token: String, val editions: Set<String>) : LicenseReply
     data class Denied(val error: String) : LicenseReply
     data object Unavailable : LicenseReply
 }
@@ -46,6 +46,7 @@ object License {
                 .putString("token", reply.token)
                 .remove("error")
                 .apply()
+            Editions.setOwned(context, reply.editions)
         }
         return reply
     }
@@ -63,8 +64,7 @@ object License {
 
             val code = store(context).getString("code", null) ?: return
             when (val reply = post(context, "/api/check", code)) {
-                is LicenseReply.Active ->
-                    store(context).edit().putString("token", reply.token).apply()
+                is LicenseReply.Active -> saveCheck(context, reply)
 
                 is LicenseReply.Denied -> {
                     store(context).edit()
@@ -81,6 +81,18 @@ object License {
         }
     }
 
+    /** Picks up editions granted while the app is open but not connected. */
+    suspend fun syncEditions(context: Context) {
+        val code = code(context) ?: return
+        val reply = post(context, "/api/check", code)
+        if (reply is LicenseReply.Active) saveCheck(context, reply)
+    }
+
+    private fun saveCheck(context: Context, reply: LicenseReply.Active) {
+        store(context).edit().putString("token", reply.token).apply()
+        Editions.setOwned(context, reply.editions)
+    }
+
     private fun tokenAlive(context: Context): Boolean =
         try {
             val token = store(context).getString("token", null).orEmpty()
@@ -90,6 +102,11 @@ object License {
             Log.w(TAG, "Unreadable token", e)
             false
         }
+
+    private fun parseEditions(json: JSONObject): Set<String> {
+        val editions = json.optJSONArray("editions") ?: return emptySet()
+        return (0 until editions.length()).map { editions.getString(it) }.toSet()
+    }
 
     @SuppressLint("HardwareIds")
     fun deviceId(context: Context): String =
@@ -119,7 +136,7 @@ object License {
                     val json = JSONObject(stream?.bufferedReader()?.use { it.readText() } ?: "{}")
                     val error = json.optString("error")
                     when {
-                        ok -> LicenseReply.Active(json.getString("token"))
+                        ok -> LicenseReply.Active(json.getString("token"), parseEditions(json))
                         error in DENIED_ERRORS -> LicenseReply.Denied(error)
                         else -> LicenseReply.Unavailable
                     }

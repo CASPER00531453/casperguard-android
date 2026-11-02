@@ -87,11 +87,30 @@ class MainSettingsFragment : PreferenceFragmentCompat() {
             true
         }
 
+        setupEdition()
+
         findPreferenceNotNull<Preference>("version").summary =
             "${BuildConfig.VERSION_NAME} (${BuildConfig.VERSION_CODE}), " +
                 "kontrol: ${Updater.lastCheck(requireContext())}"
 
         updatePreferences()
+    }
+
+    private fun setupEdition() {
+        val context = requireContext()
+        val edition = findPreferenceNotNull<DropDownPreference>("edition")
+        val owned = Editions.owned(context)
+        if (Editions.VILTRUM !in owned) return
+
+        edition.entries = arrayOf(getString(R.string.edition_default), getString(R.string.edition_viltrum))
+        edition.entryValues = arrayOf(Editions.DEFAULT, Editions.VILTRUM)
+        edition.value = Editions.selected(context)
+        edition.isVisible = true
+        edition.setOnPreferenceChangeListener { _, newValue ->
+            Editions.select(context, newValue as String)
+            requireActivity().recreate()
+            true
+        }
     }
 
     override fun onResume() {

@@ -5,6 +5,9 @@ import { ERROR_MESSAGES, QUICK_ANSWERS } from './answers'
 
 const API = 'https://casperguard.casperguard-server.workers.dev'
 const RATING_AFTER_REPLIES = 3
+const VILTRUM = window.CasperBridge?.getEdition?.() === 'viltrum'
+const ORB_COLOR = VILTRUM ? '#E0B23C' : undefined
+if (VILTRUM) document.documentElement.dataset.edition = 'viltrum'
 const THINKING_STEPS = [
   ['searching', 'Düşünüyor…'],
   ['solving', 'Çözüm arıyor…'],
@@ -41,7 +44,7 @@ function Thinking() {
   const [state, label] = THINKING_STEPS[step]
   return (
     <div className="row">
-      <div className="avatar"><ThinkingOrb state={state} size={32} theme="dark" aria-label="BurakAI düşünüyor" /></div>
+      <div className="avatar"><ThinkingOrb state={state} size={32} theme="dark" color={ORB_COLOR} aria-label="BurakAI düşünüyor" /></div>
       <div className="thinking">{label}</div>
     </div>
   )
@@ -51,7 +54,7 @@ function Message({ message }) {
   if (message.role === 'user') return <div className="bubble user">{message.content}</div>
   return (
     <div className="row">
-      <div className="avatar"><ThinkingOrb state="breathing" size={32} theme="dark" paused aria-hidden="true" /></div>
+      <div className="avatar"><ThinkingOrb state="breathing" size={32} theme="dark" color={ORB_COLOR} paused aria-hidden="true" /></div>
       <div className={message.error ? 'bubble ai error' : 'bubble ai'}>{message.content}</div>
     </div>
   )
@@ -152,9 +155,9 @@ function App() {
       <div className="log">
         {messages.length === 0 && (
           <section className="welcome">
-            <img className="logo" src="logo.png" alt="Casper Technology" />
-            <ThinkingOrb state="breathing" size={64} theme="dark" aria-hidden="true" />
-            <h1>Merhaba, ben BurakAI</h1>
+            <img className={VILTRUM ? 'logo emblem' : 'logo'} src={VILTRUM ? 'viltrum.png' : 'logo.png'} alt={VILTRUM ? 'Viltrum Edition' : 'Casper Technology'} />
+            <ThinkingOrb state="breathing" size={64} theme="dark" color={ORB_COLOR} aria-hidden="true" />
+            <h1>{VILTRUM ? 'İmparatorluk emrinde, ben BurakAI' : 'Merhaba, ben BurakAI'}</h1>
             <p>CasperGuard'la ilgili sorununu seç ya da yaz.</p>
           </section>
         )}

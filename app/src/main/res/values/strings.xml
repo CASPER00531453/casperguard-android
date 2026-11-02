@@ -7,6 +7,12 @@
     <string name="burak_ai_title">BurakAI</string>
     <string name="games_title">Oyunlar</string>
     <string name="games_coming_soon">Burası şu an yapım aşamasında.</string>
+    <string name="edition_setting">Özel sürüm</string>
+    <string name="edition_default">CasperGuard</string>
+    <string name="edition_viltrum">Viltrum Edition</string>
+    <string name="viltrum_title">VİLTRUM EDITION</string>
+    <string name="viltrum_disconnected">İmparatorluk emrini bekliyor</string>
+    <string name="viltrum_connected">Invincible modu açık</string>
     <string name="dns_preset_setting">Hazır DNS</string>
     <string name="strategy_preset_setting">Hazır strateji</string>
     <string name="update_title">Güncelleme var</string>

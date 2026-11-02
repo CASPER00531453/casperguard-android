@@ -7,6 +7,31 @@
     android:gravity="center_vertical"
     tools:context=".activities.MainActivity">
 
+    <ImageView
+        android:id="@+id/edition_emblem"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:layout_above="@+id/edition_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="12dp"
+        android:importantForAccessibility="no"
+        android:src="@drawable/viltrum_emblem"
+        android:visibility="gone" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/edition_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/status_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="24dp"
+        android:letterSpacing="0.15"
+        android:text="@string/viltrum_title"
+        android:textColor="@color/viltrum_gold"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/status_button"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"

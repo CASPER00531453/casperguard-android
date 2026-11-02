@@ -13,6 +13,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -32,6 +33,7 @@ import java.io.IOException
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
+    private lateinit var appliedEdition: String
 
     companion object {
         private val TAG: String = MainActivity::class.java.simpleName
@@ -122,10 +124,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        appliedEdition = Editions.selected(this)
+        Editions.applyTheme(this)
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        if (appliedEdition == Editions.VILTRUM) {
+            binding.editionEmblem.visibility = View.VISIBLE
+            binding.editionTitle.visibility = View.VISIBLE
+        }
 
         val intentFilter = IntentFilter().apply {
             addAction(STARTED_BROADCAST)
@@ -170,14 +179,24 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun recreateForEdition(): Boolean {
+        if (Editions.selected(this) == appliedEdition) return false
+        recreate()
+        return true
+    }
+
     override fun onResume() {
         super.onResume()
+        if (recreateForEdition()) return
         updateStatus()
         lifecycleScope.launch {
             if (Updater.refresh(this@MainActivity)) {
                 updateStatus()
                 return@launch
             }
+
+            License.syncEditions(this@MainActivity)
+            if (recreateForEdition()) return@launch
 
             Announcements.fetchNew(this@MainActivity)?.let {
                 MaterialAlertDialogBuilder(this@MainActivity)
@@ -294,7 +313,10 @@ class MainActivity : AppCompatActivity() {
             AppStatus.Halted -> {
                 when (preferences.mode()) {
                     Mode.VPN -> {
-                        binding.statusText.setText(R.string.vpn_disconnected)
+                        binding.statusText.setText(
+                            if (appliedEdition == Editions.VILTRUM) R.string.viltrum_disconnected
+                            else R.string.vpn_disconnected
+                        )
                         binding.statusButton.setText(R.string.vpn_connect)
                     }
 
@@ -309,7 +331,10 @@ class MainActivity : AppCompatActivity() {
             AppStatus.Running -> {
                 when (mode) {
                     Mode.VPN -> {
-                        binding.statusText.setText(R.string.vpn_connected)
+                        binding.statusText.setText(
+                            if (appliedEdition == Editions.VILTRUM) R.string.viltrum_connected
+                            else R.string.vpn_connected
+                        )
                         binding.statusButton.setText(R.string.vpn_disconnect)
                     }
 

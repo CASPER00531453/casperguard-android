@@ -8,6 +8,7 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
+import io.github.dovecoteescapee.byedpi.utility.Editions
 import io.github.dovecoteescapee.byedpi.utility.License
 
 class BurakAiActivity : AppCompatActivity() {
@@ -19,10 +20,14 @@ class BurakAiActivity : AppCompatActivity() {
 
         @JavascriptInterface
         fun getDeviceId(): String = License.deviceId(this@BurakAiActivity)
+
+        @JavascriptInterface
+        fun getEdition(): String = Editions.selected(this@BurakAiActivity)
     }
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
+        Editions.applyTheme(this)
         super.onCreate(savedInstanceState)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -30,7 +35,8 @@ class BurakAiActivity : AppCompatActivity() {
         webView = WebView(this)
         setContentView(webView)
 
-        webView.setBackgroundColor(Color.parseColor("#0F172A"))
+        val viltrum = Editions.selected(this) == Editions.VILTRUM
+        webView.setBackgroundColor(Color.parseColor(if (viltrum) "#12060A" else "#0F172A"))
         webView.settings.javaScriptEnabled = true
         webView.addJavascriptInterface(Bridge(), "CasperBridge")
         webView.webViewClient = object : WebViewClient() {
