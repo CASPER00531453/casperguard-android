@@ -3,8 +3,12 @@
     <string name="app_name">CasperGuard</string>
     <string name="announcement_title">CasperGuard duyurusu</string>
     <string name="announcement_channel_name">Duyurular</string>
+    <string name="whats_new_title">Yenilikler</string>
+    <string name="whats_new_items">• Oyunlar eklendi: arkadaşlarınla Para oyununu oyna.
+• BurakAI artık CasperAI oldu.</string>
+    <string name="whats_new_ok">Tamam</string>
     <string name="burak_ai_menu">AI</string>
-    <string name="burak_ai_title">BurakAI</string>
+    <string name="burak_ai_title">CasperAI</string>
     <string name="games_title">Oyunlar</string>
     <string name="game_invite_channel_name">Oyun davetleri</string>
     <string name="game_invite_title">Para oyunu daveti</string>

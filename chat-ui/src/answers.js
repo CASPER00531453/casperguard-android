@@ -1,4 +1,4 @@
-// Hazır sorular internete gitmeden cevaplanır; çözülmezse sohbet BurakAI'a geçer.
+// Hazır sorular internete gitmeden cevaplanır; çözülmezse sohbet CasperAI'a geçer.
 export const QUICK_ANSWERS = [
   {
     question: 'Bağlantı sorunu yaşıyorum',
@@ -49,7 +49,7 @@ export const QUICK_ANSWERS = [
 
 export const ERROR_MESSAGES = {
   rate_limited: 'Çok hızlı yazdın. Biraz bekleyip tekrar dene.',
-  ai_unavailable: 'BurakAI şu an cevap veremiyor. Biraz sonra tekrar dene.',
+  ai_unavailable: 'CasperAI şu an cevap veremiyor. Biraz sonra tekrar dene.',
   invalid_code: 'Kodun geçersiz görünüyor.',
   revoked: 'Kodun iptal edilmiş.',
   expired: 'Kodunun süresi dolmuş.',

@@ -44,7 +44,7 @@ function Thinking() {
   const [state, label] = THINKING_STEPS[step]
   return (
     <div className="row">
-      <div className="avatar"><ThinkingOrb state={state} size={32} theme="dark" color={ORB_COLOR} aria-label="BurakAI düşünüyor" /></div>
+      <div className="avatar"><ThinkingOrb state={state} size={32} theme="dark" color={ORB_COLOR} aria-label="CasperAI düşünüyor" /></div>
       <div className="thinking">{label}</div>
     </div>
   )
@@ -77,7 +77,7 @@ function RatingCard({ onDone }) {
 
   return (
     <div className="card">
-      <div className="card-title">BurakAI'ı değerlendirir misin?</div>
+      <div className="card-title">CasperAI'ı değerlendirir misin?</div>
       <div className="stars" role="radiogroup" aria-label="Puan">
         {[1, 2, 3, 4, 5].map((n) => (
           <button key={n} className={n <= stars ? 'star on' : 'star'} aria-label={`${n} yıldız`} onClick={() => setStars(n)}>
@@ -155,9 +155,9 @@ function App() {
       <div className="log">
         {messages.length === 0 && (
           <section className="welcome">
-            <img className={VILTRUM ? 'logo emblem' : 'logo'} src={VILTRUM ? 'viltrum.png' : 'logo.png'} alt={VILTRUM ? 'Viltrum Edition' : 'Casper Technology'} />
+            <img className={VILTRUM ? 'logo emblem' : 'logo'} src={VILTRUM ? 'viltrum.png' : 'logo.png'} alt={VILTRUM ? 'Viltrum Edition' : 'CasperAI'} />
             <ThinkingOrb state="breathing" size={64} theme="dark" color={ORB_COLOR} aria-hidden="true" />
-            <h1>{VILTRUM ? 'İmparatorluk emrinde, ben BurakAI' : 'Merhaba, ben BurakAI'}</h1>
+            <h1>{VILTRUM ? 'İmparatorluk emrinde, ben CasperAI' : 'Merhaba, ben CasperAI'}</h1>
             <p>CasperGuard'la ilgili sorununu seç ya da yaz.</p>
           </section>
         )}
@@ -179,7 +179,7 @@ function App() {
         <div ref={bottom} />
       </div>
       <form onSubmit={(e) => { e.preventDefault(); send(input) }}>
-        <input value={input} maxLength={1500} placeholder="BurakAI'a yaz" aria-label="Mesaj" onChange={(e) => setInput(e.target.value)} />
+        <input value={input} maxLength={1500} placeholder="CasperAI'a yaz" aria-label="Mesaj" onChange={(e) => setInput(e.target.value)} />
         <button className="primary" disabled={thinking || !input.trim()}>Gönder</button>
       </form>
     </main>

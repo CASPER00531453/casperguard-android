@@ -109,7 +109,7 @@ function Shuffling() {
   return (
     <div className="stack center shuffle">
       <ThinkingOrb state="weaving" size={64} theme="dark" color={ORB_COLOR} />
-      <h1>BurakAI kartları karıştırıyor…</h1>
+      <h1>CasperAI kartları karıştırıyor…</h1>
       <div className="deck">{[0, 1, 2, 3, 4].map((i) => <div key={i} className="mini-card" style={{ animationDelay: `${i * 0.12}s` }} />)}</div>
     </div>
   )
@@ -181,7 +181,7 @@ function Voting({ view, you, seconds }) {
     return (
       <div className="stack center">
         <ThinkingOrb state="solving" size={64} theme="dark" color={ORB_COLOR} />
-        <h1>Oylar eşit, BurakAI karar veriyor…</h1>
+        <h1>Oylar eşit, CasperAI karar veriyor…</h1>
       </div>
     )
   }
@@ -221,7 +221,7 @@ function Finished({ view, onLeave }) {
       </div>
       {view.aiComment && (
         <div className="card">
-          <strong>BurakAI{view.aiVote ? ` · ${name(view.aiVote)}` : ''}</strong>
+          <strong>CasperAI{view.aiVote ? ` · ${name(view.aiVote)}` : ''}</strong>
           <p>{view.aiComment}</p>
         </div>
       )}

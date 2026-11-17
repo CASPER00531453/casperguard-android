@@ -201,6 +201,7 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         if (recreateForEdition()) return
         updateStatus()
+        if (!isFinishing && WhatsNew.shouldShow(this)) WhatsNew.show(this)
         lifecycleScope.launch {
             if (Updater.refresh(this@MainActivity)) {
                 updateStatus()

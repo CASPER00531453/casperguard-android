@@ -11,7 +11,7 @@ function Footer() {
   return (
     <div className="footer" aria-hidden="true">
       <ThinkingOrb state="breathing" size={20} theme="dark" color={ORB_COLOR} />
-      <span>BurakAI</span>
+      <span>CasperAI</span>
     </div>
   )
 }
