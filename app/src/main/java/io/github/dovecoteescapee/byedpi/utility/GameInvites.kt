@@ -8,6 +8,7 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import io.github.dovecoteescapee.byedpi.R
 import io.github.dovecoteescapee.byedpi.activities.GamesActivity
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONException
@@ -23,8 +24,19 @@ object GameInvites {
     private const val CHANNEL_ID = "CasperGuardGameInvites"
     private const val NOTIFICATION_ID_BASE = 1000
 
-    /** Shows a notification for each pending invite not shown before; network problems are ignored. */
+    /** Shows a notification for each pending invite not shown before; any failure is ignored. */
     suspend fun notifyNew(context: Context) {
+        // Runs inside the license loop: an invite problem must never stop license checks.
+        try {
+            showFresh(context)
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            Log.w(TAG, "Game invite check failed", e)
+        }
+    }
+
+    private suspend fun showFresh(context: Context) {
         val code = License.code(context) ?: return
         val invites = fetch(context, code) ?: return
         val store = context.getSharedPreferences("game_invites", Context.MODE_PRIVATE)

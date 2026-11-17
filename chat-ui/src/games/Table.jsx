@@ -177,7 +177,7 @@ function Voting({ view, you, seconds }) {
   const send = useSend()
   const me = view.players.find((p) => p.id === you)
   const others = view.players.filter((p) => p.id !== you && p.cards.length > 0)
-  if (view.deadline === null) {
+  if (view.tie) {
     return (
       <div className="stack center">
         <ThinkingOrb state="solving" size={64} theme="dark" color={ORB_COLOR} />
@@ -205,7 +205,8 @@ function Voting({ view, you, seconds }) {
 
 function Finished({ view, onLeave }) {
   const votes = useMemo(() => {
-    const counts = Object.fromEntries(view.players.map((p) => [p.id, 0]))
+    // Object.fromEntries eski Android WebView'lerinde yok.
+    const counts = view.players.reduce((all, p) => ({ ...all, [p.id]: 0 }), {})
     for (const p of view.players) if (p.vote) counts[p.vote] += 1
     if (view.aiVote) counts[view.aiVote] += 1
     return counts

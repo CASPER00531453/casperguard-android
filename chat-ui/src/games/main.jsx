@@ -23,8 +23,12 @@ function App() {
   const [error, setError] = useState('')
 
   useEffect(() => {
+    // Ekrandan çıkıp dönen oyuncu bitmemiş masasına geri alınır.
     post('/api/games/profile/get')
-      .then((r) => setProfile(r.profile))
+      .then(async (r) => {
+        if (r.profile) setGameId((await post('/api/games/active')).game_id)
+        setProfile(r.profile)
+      })
       .catch((e) => setError(e.message))
   }, [])
 

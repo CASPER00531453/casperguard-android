@@ -3,7 +3,7 @@ import { ThinkingOrb } from 'thinking-orbs'
 import { post } from './api'
 import { ORB_COLOR } from './theme'
 
-const INVITE_POLL_MS = 5000
+const INVITE_POLL_MS = 15000
 
 export function Lobby({ profile, onJoin, onEditProfile }) {
   const [invites, setInvites] = useState([])
