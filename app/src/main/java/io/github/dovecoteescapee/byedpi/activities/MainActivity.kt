@@ -246,11 +246,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             R.id.action_games -> {
-                MaterialAlertDialogBuilder(this)
-                    .setTitle(R.string.games_title)
-                    .setMessage(R.string.games_coming_soon)
-                    .setPositiveButton(android.R.string.ok, null)
-                    .show()
+                startActivity(Intent(this, GamesActivity::class.java))
                 true
             }
 

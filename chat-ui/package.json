@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "build": "esbuild src/main.jsx --bundle --minify --jsx=automatic --target=es2019,chrome70 --define:process.env.NODE_ENV=\\\"production\\\" --outfile=../app/src/main/assets/chat/app.js"
+    "build": "esbuild src/main.jsx --bundle --minify --jsx=automatic --target=es2019,chrome70 --define:process.env.NODE_ENV=\\\"production\\\" --outfile=../app/src/main/assets/chat/app.js && esbuild src/games/main.jsx --bundle --minify --jsx=automatic --target=es2019,chrome70 --define:process.env.NODE_ENV=\\\"production\\\" --outfile=../app/src/main/assets/games/app.js"
   },
   "dependencies": {
     "react": "18.3.1",

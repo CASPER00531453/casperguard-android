@@ -61,6 +61,7 @@ object License {
         while (true) {
             if (checks++ % UPDATE_CHECK_EVERY == 0 && Updater.refresh(context)) return
             Announcements.fetchNew(context)?.let { Announcements.notify(context, it) }
+            GameInvites.notifyNew(context)
 
             val code = store(context).getString("code", null) ?: return
             when (val reply = post(context, "/api/check", code)) {

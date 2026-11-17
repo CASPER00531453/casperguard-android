@@ -60,6 +60,12 @@
         </activity-alias>
 
         <activity
+            android:name=".activities.GamesActivity"
+            android:label="@string/games_title"
+            android:windowSoftInputMode="adjustResize"
+            android:exported="false" />
+
+        <activity
             android:name=".activities.BurakAiActivity"
             android:label="@string/burak_ai_title"
             android:windowSoftInputMode="adjustResize"

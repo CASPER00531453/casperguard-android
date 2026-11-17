@@ -6,7 +6,9 @@
     <string name="burak_ai_menu">AI</string>
     <string name="burak_ai_title">BurakAI</string>
     <string name="games_title">Oyunlar</string>
-    <string name="games_coming_soon">Burası şu an yapım aşamasında.</string>
+    <string name="game_invite_channel_name">Oyun davetleri</string>
+    <string name="game_invite_title">Para oyunu daveti</string>
+    <string name="game_invite_text">%1$s seni Para oyununa çağırıyor</string>
     <string name="edition_setting">Özel sürüm</string>
     <string name="edition_default">CasperGuard</string>
     <string name="edition_viltrum">Viltrum Edition</string>
